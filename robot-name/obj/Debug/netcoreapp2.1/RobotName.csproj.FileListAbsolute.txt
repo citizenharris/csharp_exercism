@@ -1,0 +1,14 @@
+/home/citizenharris/DEV/learn/c#/exercism/robot-name/bin/Debug/netcoreapp2.1/xunit.runner.visualstudio.dotnetcore.testadapter.dll
+/home/citizenharris/DEV/learn/c#/exercism/robot-name/bin/Debug/netcoreapp2.1/xunit.runner.reporters.netcoreapp10.dll
+/home/citizenharris/DEV/learn/c#/exercism/robot-name/bin/Debug/netcoreapp2.1/xunit.runner.utility.netcoreapp10.dll
+/home/citizenharris/DEV/learn/c#/exercism/robot-name/bin/Debug/netcoreapp2.1/RobotName.deps.json
+/home/citizenharris/DEV/learn/c#/exercism/robot-name/bin/Debug/netcoreapp2.1/RobotName.runtimeconfig.json
+/home/citizenharris/DEV/learn/c#/exercism/robot-name/bin/Debug/netcoreapp2.1/RobotName.runtimeconfig.dev.json
+/home/citizenharris/DEV/learn/c#/exercism/robot-name/bin/Debug/netcoreapp2.1/RobotName.dll
+/home/citizenharris/DEV/learn/c#/exercism/robot-name/bin/Debug/netcoreapp2.1/RobotName.pdb
+/home/citizenharris/DEV/learn/c#/exercism/robot-name/obj/Debug/netcoreapp2.1/RobotName.csprojAssemblyReference.cache
+/home/citizenharris/DEV/learn/c#/exercism/robot-name/obj/Debug/netcoreapp2.1/RobotName.csproj.CoreCompileInputs.cache
+/home/citizenharris/DEV/learn/c#/exercism/robot-name/obj/Debug/netcoreapp2.1/RobotName.AssemblyInfoInputs.cache
+/home/citizenharris/DEV/learn/c#/exercism/robot-name/obj/Debug/netcoreapp2.1/RobotName.AssemblyInfo.cs
+/home/citizenharris/DEV/learn/c#/exercism/robot-name/obj/Debug/netcoreapp2.1/RobotName.dll
+/home/citizenharris/DEV/learn/c#/exercism/robot-name/obj/Debug/netcoreapp2.1/RobotName.pdb
