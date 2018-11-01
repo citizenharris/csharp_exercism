@@ -14,7 +14,9 @@ public static class Bob
                 return "Calm down, I know what I'm doing!";
             case var val when new Regex(@"\?[\s]*$").IsMatch(val):
                 return "Sure.";
-            case var val when new Regex(@"^[A-Z]{1,}[^a-z]+$").IsMatch(val):
+            case var val when new Regex(@"^[^a-zA-Z]+$").IsMatch(val):
+                return "Whatever.";
+            case var val when new Regex(@"^([0-9]|[A-Z]){1,}[^a-z]+$").IsMatch(val):
                 return "Whoa, chill out!";
             default:
                 return "Whatever.";
