@@ -2,3 +2,6 @@
 .vscode
 *.exe
 */nuget/*
+bin
+obj
+*.csproj
