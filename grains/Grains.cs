@@ -6,13 +6,8 @@ public static class Grains
     {
         if (n < 1 || n > 64) throw new ArgumentOutOfRangeException();
         
-        ulong grains = 0;
-        for (int i = 0; i < n; i++)
-        {
-            grains = i == 0 ? 1 : (ulong) (1 * (Math.Pow(2, i)));
-        }
-        return grains;
-  }
+        return n == 1 ? 1 : (ulong) (1 * (Math.Pow(2, n - 1)));
+     }
 
     public static ulong Total()
     {
