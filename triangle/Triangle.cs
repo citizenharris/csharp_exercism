@@ -8,14 +8,8 @@ public static class Triangle
     {
         if (TriangleValidation(side1, side2, side3))
         {
-            if (side1 != side2 && side1 != side3 && side2 != side3)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            double[] sides = new double[3] {side1, side2, side3};
+            return sides.Distinct().Count() == 3 ? true : false;
         }
         else
         {
@@ -40,22 +34,19 @@ public static class Triangle
     {
         if (TriangleValidation(side1, side2, side3))
         {
-            if (side1 == side2 && side1 == side3)
-            {
-                return true;
-            } else 
-            {
-                return false;
-            }
+            double[] sides = new double[3] {side1, side2, side3};
+            return sides.All(x => x == side1) ? true : false;
         } else 
         {
             return false;
         }
     }
-    public static bool TriangleValidation(double side1, double side2, double side3)
+
+  public static bool TriangleValidation(double side1, double side2, double side3)
     {
         if (side1 < 0 || side2 < 0 || side3 < 0) throw new TriangleException();
-        if ((!(side1 + side2 >= side3) || !(side2 + side3 >= side1) || !(side1 + side3 >= side2) || (side1 == 0 || side2 == 0 || side3 == 0)))
+        if ((!(side1 + side2 >= side3) || !(side2 + side3 >= side1) || !(side1 + side3 >= side2) 
+            || (side1 == 0 || side2 == 0 || side3 == 0)))
         {
             return false;
         } else
