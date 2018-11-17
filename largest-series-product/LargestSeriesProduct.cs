@@ -11,22 +11,16 @@ public static class LargestSeriesProduct
         long sum = 0;
         for (int i = 0; i < digits.Length; i++)
         {
-            if (Char.GetNumericValue(digits[i]) == 0) continue;
-            long sequence = 1;
-            for (int j = 0; j < span && i + j < digits.Length; j++)
+            long sequence = 0;
+            for (int j = 0; j < span && i + span <= digits.Length; j++)
             {
                 long digit = (long)Char.GetNumericValue(digits[i + j]);
-                if (digit != 0)
-                {
-                    sequence *= digit;
-                } else 
-                {
-                    sequence = 0;
-                }
+                if (digit != 0 && j == 0) sequence = 1;
+                sequence *= digit;
             }
 
             if (sum < sequence) sum = sequence;
         }
-        return sum;
+        return span == 0 ? 1 : sum;
     }
 }
