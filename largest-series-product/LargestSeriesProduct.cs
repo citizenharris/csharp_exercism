@@ -6,7 +6,7 @@ public static class LargestSeriesProduct
     public static long GetLargestProduct(string digits, int span) 
     {
         if (span < 0 || Regex.IsMatch(digits, @"[^\d]") || span > digits.Length) throw new ArgumentException();
-        if (string.IsNullOrEmpty(digits)) return 1;
+        if (string.IsNullOrEmpty(digits) || span == 0) return 1;
 
         long sum = 0;
         for (int i = 0; i < digits.Length; i++)
@@ -21,6 +21,6 @@ public static class LargestSeriesProduct
 
             if (sum < sequence) sum = sequence;
         }
-        return span == 0 ? 1 : sum;
+        return sum;
     }
 }
