@@ -8,7 +8,8 @@ public static class NucleotideCount
     public static IDictionary<char, int> Count(string sequence)
     {
         
-        if (new Regex(@"[^ACGT]").IsMatch(sequence)) throw new ArgumentException("Contains invalid nucleotides");
+        if (new Regex(@"[^ACGT]").IsMatch(sequence)) 
+            throw new ArgumentException("Contains invalid nucleotides");
         
         var output = new Dictionary<char, int>
         {
