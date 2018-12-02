@@ -17,9 +17,9 @@ public static class NucleotideCount
             ['G'] = 0,
             ['T'] = 0
         };
-        foreach (var c in sequence.ToCharArray())
+        foreach (var c in sequence)
         {
-            if (output.ContainsKey(c)) output[c] += 1;
+            output[c] += 1;
         }
         return output;
     }
