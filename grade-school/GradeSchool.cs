@@ -6,10 +6,7 @@ public class GradeSchool
 {
     private Dictionary<string, int> _roster = new Dictionary<string, int>();
 
-    public void Add(string student, int grade)
-    {
-        _roster.Add(student, grade);
-    }
+    public void Add(string student, int grade) => _roster.Add(student, grade);
 
     public IEnumerable<string> Roster()
     {
