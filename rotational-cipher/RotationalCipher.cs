@@ -15,9 +15,8 @@ public static class RotationalCipher
                 output += letter;
                 continue;
             }
-            var index = shiftKey != 26 ? 
-                alphabet.IndexOf(Char.ToLower(letter)) + shiftKey : 
-                0;
+
+            var index = alphabet.IndexOf(Char.ToLower(letter)) + shiftKey; 
             if (index >= 26) index -= 26;
             output += Char.IsUpper(letter) ? Char.ToUpper(alphabet[index]) : alphabet[index];
         }
