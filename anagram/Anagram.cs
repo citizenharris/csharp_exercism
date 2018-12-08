@@ -12,8 +12,20 @@ public class Anagram
         List<string> output = new List<string>();
         foreach (var item in potentialMatches)
         {
-            if (item.ToLower() != _anagram && item.Length == _anagram.Length && _anagram.All(item.ToLower().Contains))                output.Add(item);
+            if (ValidateMatch(item)) output.Add(item);
         }
         return output.ToArray();
     }
+
+    public bool ValidateMatch(string potentialMatch)
+    {
+        if (potentialMatch.ToLower() == _anagram || potentialMatch.Length != _anagram.Length)
+            return false;
+        return BreakWord(potentialMatch) == BreakWord(_anagram);
+    }
+
+    public string BreakWord(string word) => 
+        String.Join("", word.ToLower()
+                            .OrderBy(a => a)
+                            .ToArray());
 }
