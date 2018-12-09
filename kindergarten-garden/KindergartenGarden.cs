@@ -14,10 +14,7 @@ public class KindergartenGarden
 {
     private string _diagram;
     private string _studentOrder = "ABCDEFGHIJKL";
-    public KindergartenGarden(string diagram)
-    {
-        _diagram = diagram;
-    }
+    public KindergartenGarden(string diagram) => _diagram = diagram;
 
     public IEnumerable<Plant> Plants(string student)
     {
@@ -29,7 +26,7 @@ public class KindergartenGarden
         
         Plant[] plants = new Plant[4];
         var index = 0;
-        foreach (string line in output)
+        foreach (var line in output)
         {
             foreach (var plant in line)
             {
