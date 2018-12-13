@@ -5,18 +5,17 @@ public static class IsbnVerifier
     public static bool IsValid(string number)
     {
         var isbn = number.Replace("-", "");
-        
-        int[] isbnNums = new int[isbn.Length];
-        for (int i = 0; i <= isbn.Length; i++)
+        var length = isbn.Length;
+        if (length != 10) return false;
+
+        int[] isbnNums = new int[length];
+        for (int i = 0; i < length; i++)
         {
             if (!int.TryParse(isbn[i].ToString(), out int digit))
             {
-                if (isbn[i] == 'X')
-                {
-                    isbnNums[i] = 10;
-                    continue;
-                }
-                return false;
+                if (i != length - 1 || isbn[i] != 'X' && i == length - 1) 
+                    return false;
+                digit = 10;
             }
             isbnNums[i] = digit;
         }
@@ -27,7 +26,7 @@ public static class IsbnVerifier
     public static bool ValidateIsbn(int[] isbn)
     {
         int result = 0;
-        for (int i = 0; i < isbn.Length; i++)
+        for (var i = 0; i < isbn.Length; i++)
         {
             result += isbn[i] * (isbn.Length - i);
         }
