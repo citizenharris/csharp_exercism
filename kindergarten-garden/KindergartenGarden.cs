@@ -21,11 +21,10 @@ public class KindergartenGarden
 
         for (int i = 0; i < diagram.Length; i++)
         {
-            yield return GetPlant(diagram[0][position + i]);
-        }
-        for (int i = 0; i < diagram.Length; i++)
-        {
-            yield return GetPlant(diagram[1][position + i]);
+            for (int j = 0; j < 2; j++)
+            {
+                yield return GetPlant(diagram[i][position + j]);
+            }
         }
     }
 
