@@ -1,12 +1,12 @@
 using System;
 
-public class Clock
+public class Clock : IEquatable<Clock>
 {
     public Clock(int hours, int minutes)
     {
         Hours = minutes > 59 || minutes < 0?
-            FormatHours(hours + FormatMinutesAdd(minutes).Item1) : FormatHours(hours);
-        Minutes = FormatMinutesAdd(minutes).Item2;
+            FormatHours(hours + GetOverspillMinutes(minutes).Item1) : FormatHours(hours);
+        Minutes = minutes < 0 ? 60 - GetOverspillMinutes(minutes * - 1).Item2 : GetOverspillMinutes(minutes).Item2;
     }
 
     public int Hours { get; private set; }
@@ -14,15 +14,27 @@ public class Clock
 
     public Clock Add(int minutesToAdd)
     {
-        Hours += FormatMinutesAdd(minutesToAdd).Item1;
-        Minutes += FormatMinutesAdd(minutesToAdd).Item2;
+        Hours += GetOverspillMinutes(minutesToAdd).Item1;
+        if (Minutes + minutesToAdd > 59)
+        {
+            // Hours = FormatHours(Hours + 1);
+            Minutes = (Minutes + GetOverspillMinutes(minutesToAdd).Item2) % 60;
+            return this;
+        }
+        Minutes += minutesToAdd;
         return this;
     }
 
     public Clock Subtract(int minutesToSubtract)
     {
-        Hours -= FormatMinutesSubtract(minutesToSubtract).Item1;
-        Minutes -= FormatMinutesSubtract(minutesToSubtract).Item2;
+        Hours -= GetOverspillMinutes(minutesToSubtract).Item1;
+        if (Minutes - minutesToSubtract < 0)
+        {
+            Hours = FormatHours(Hours - 1);
+            Minutes = 60 - GetOverspillMinutes(minutesToSubtract).Item2;
+            return this;
+        }
+        Minutes -= GetOverspillMinutes(minutesToSubtract).Item2;
         return this;
     }
 
@@ -32,48 +44,37 @@ public class Clock
         return $"{Hours.ToString("D2")}:{Minutes.ToString("D2")}";
     }
 
+    public override int GetHashCode()
+    {
+        return this.Hours.GetHashCode() + this.Minutes.GetHashCode();
+    }
+
+    public bool Equals(Clock expected) => Hours == expected.Hours && Minutes == expected.Minutes;
+
+    public override bool Equals(Object obj)
+    {
+        //Check for null and compare run-time types.
+        if ((obj == null) || !this.GetType().Equals(obj.GetType()))
+        {
+            return false;
+        }
+        else
+        {
+            Clock p = (Clock)obj;
+            return (Hours == p.Hours) && (Minutes == p.Minutes);
+        }
+    }
+
+    private Tuple<int, int> GetOverspillMinutes(int minutes)
+    {
+        var overspill = minutes % 60;
+        var loops = FormatHours((minutes - overspill) / 60);
+        return new Tuple<int, int>(loops, overspill);
+    }
+
     private static int FormatHours(int hoursToAdd)
     {
         if (hoursToAdd < 0) return 24 - ((hoursToAdd * -1) % 24);
-        return hoursToAdd >= 24 ? hoursToAdd % 24 : hoursToAdd;
-    }
-
-    private static void BreakDownMinutes(int minutesToAdd, out int hours, out int mins)
-    {
-        var asHours = ((double)minutesToAdd) / 60;
-        var asHoursRounded = Math.Floor(asHours);
-        mins = (int)Math.Ceiling(((asHours) - asHoursRounded) * 60);
-        hours = (int)asHoursRounded;
-    }
-
-    private static Tuple<int, int> FormatMinutesAdd(int minutesToAdd)
-    {
-        if (minutesToAdd > 59)
-        {
-            BreakDownMinutes(minutesToAdd, out var hours, out var mins);
-            return new Tuple<int, int>
-                (FormatHours(hours), mins);
-        }
-        else if (minutesToAdd < 0)
-        {
-            minutesToAdd *= -1;
-            BreakDownMinutes(minutesToAdd, out var hours, out var mins);
-            return new Tuple<int, int>
-                    ((FormatHours(hours * -1)), (60 - mins));
-        } else
-        {
-            return new Tuple<int, int>(0, minutesToAdd);
-        }
-    }
-
-    private Tuple<int, int> FormatMinutesSubtract(int minutesToSubtract)
-    {
-        if (minutesToSubtract > 59)
-        {
-            BreakDownMinutes(minutesToSubtract, out var hours, out var mins);
-            return new Tuple<int, int>
-                (FormatHours(hours), mins);
-        }
-        return new Tuple<int, int>(0, minutesToSubtract);
+        return hoursToAdd >= 24 ? hoursToAdd % 24 : hoursToAdd != 0 ? hoursToAdd : 0;
     }
 }
