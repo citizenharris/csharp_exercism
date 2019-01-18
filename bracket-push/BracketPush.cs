@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text.RegularExpressions;
 
 public static class BracketPush
@@ -11,31 +10,61 @@ public static class BracketPush
         if (input == "") return true;
         if (input.Length % 2 != 0) return false;
 
-        var left = new List<char>() { '{', '[', '(' };
-        var right = new List<char>() { '}', ']', ')' };
-        
-        for (int k = 0; k < 3; k++)
-        {    
-            for (int i = 0; i < input.Length; i++)
+        var matches = new List<Bracket<char, bool>>();
+        foreach (var c in input)
+        {
+            if (IsLeftBracket(c)) 
             {
-                if (input[i] == left[k])
+                matches.Add(new Bracket<char, bool>(c, true));
+            } else 
+            {
+                for (int i = matches.Count - 1; i >= 0; i--)
                 {
-                    var indices = new List<int>();
-                    var index = input.IndexOf(right[k], i);
-                    if (index == -1) return false;
-                    if (indices.Contains(index))
+                    if (matches[i].IsOpen)
                     {
-                        for (int j = i; j < input.Length - i; j++)
+                        if (IsSameBracket(matches[i].BracketType, c))
                         {
-                            if (indices.Contains(j)) continue;
-                            if (input.IndexOf(right[k], j) == -1) return false;
+                            matches[i].IsOpen = false;
+                            break;
+                        } else 
+                        {
+                            return false;
                         }
+                    } else
+                    {
+                        continue;
                     }
-                    indices.Add(i);
                 }
             }
         }
+        return IsLeftBracket(input[0]) && (input.Length / 2 == matches.Count);
+    }
 
-        return true;
+    public static bool IsLeftBracket(char bracket) => bracket == '[' || bracket == '{' || bracket == '(';
+
+    public static bool IsSameBracket(char leftBracket, char rightBracket) {
+        switch (rightBracket)
+        {
+            case ']':
+                return leftBracket == '[';
+            case '}':
+                return leftBracket == '{';
+            case ')':
+                return leftBracket == '(';
+            default:
+                return false;
+        }
+    }
+}
+
+public class Bracket<T1, T2>
+{
+    public char BracketType { get; set; }
+    public bool IsOpen { get; set; }
+    
+    public Bracket(char bracketType, bool isOpen)
+    {
+        BracketType = bracketType;
+        IsOpen = isOpen;
     }
 }
