@@ -1,67 +1,37 @@
 using System;
 
-public class Clock : IEquatable<Clock>
+public class Clock
 {
-    public Clock(int hours, int minutes)
-    {
-        Hours = minutes > 59 ?
-            FormatHours(hours + GetOverspillMinutes(minutes).Item1) :
-                minutes < 0 ?
-                    FormatHours(GetOverspillMinutes(minutes).Item1) : FormatHours(hours);
-        Minutes = minutes < 0 ? 60 - GetOverspillMinutes(MakePositive(minutes)).Item2 : GetOverspillMinutes(minutes).Item2;
-    }
+    private readonly int _timeInMinutes;
+    public int Hours => _timeInMinutes / 60;
+    public int Minutes => _timeInMinutes % 60;
 
-    public int Hours { get; private set; }
-    public int Minutes { get; private set; }
+    public Clock(int hours, int min)
+    {
+        _timeInMinutes = ToTimeInMinutes(hours * 60 + min);
+    }
 
     public Clock Add(int minutesToAdd)
     {
-        Hours += GetOverspillMinutes(minutesToAdd).Item1;
-        var overspillMinutes = GetOverspillMinutes(minutesToAdd).Item2;
-        if (Minutes + minutesToAdd > 59)
-        {
-            Hours = Minutes + overspillMinutes > 59 ? FormatHours(Hours + 1) : Hours;
-            Minutes = (Minutes + GetOverspillMinutes(minutesToAdd).Item2) % 60;
-            return this;
-        }
-        Minutes += minutesToAdd;
-        return this;
+        return new Clock(0, _timeInMinutes + minutesToAdd);
     }
 
     public Clock Subtract(int minutesToSubtract)
     {
-        Hours -= GetOverspillMinutes(minutesToSubtract).Item1;
-        var overspillMinutes = GetOverspillMinutes(minutesToSubtract).Item2;
-        if (Minutes - minutesToSubtract < 0)
-        {
-            Hours = Minutes - overspillMinutes < 0 ? FormatHours(Hours - 1) : Hours;
-            Minutes = 60 - (MakePositive(Minutes - overspillMinutes % 60));
-            return this;
-        }
-        Minutes -= GetOverspillMinutes(minutesToSubtract).Item2;
-        return this;
+        return new Clock(0, _timeInMinutes - minutesToSubtract);
     }
 
+    public override string ToString() => $"{Hours.ToString("D2")}:{Minutes.ToString("D2")}";
 
-    public override string ToString()
-    {
-        return $"{Hours.ToString("D2")}:{Minutes.ToString("D2")}";
-    }
-
-    public override int GetHashCode()
-    {
-        return this.Hours.GetHashCode() + this.Minutes.GetHashCode();
-    }
+    public override int GetHashCode() => Hours.GetHashCode() + Minutes.GetHashCode();
 
     public bool Equals(Clock expected) => Hours == expected.Hours && Minutes == expected.Minutes;
 
     public override bool Equals(Object obj)
     {
         //Check for null and compare run-time types.
-        if ((obj == null) || !this.GetType().Equals(obj.GetType()))
-        {
+        if ((obj == null) || !GetType().Equals(obj.GetType()))
             return false;
-        }
         else
         {
             Clock c = (Clock)obj;
@@ -69,18 +39,11 @@ public class Clock : IEquatable<Clock>
         }
     }
 
-    private int FormatHours(int hoursToAdd)
+    private int ToTimeInMinutes(int minutes)
     {
-        if (hoursToAdd < 0) return (MakePositive(hoursToAdd)) % 24 == 0 ? 0 : 24 - ((MakePositive(hoursToAdd)) % 24);
-        return hoursToAdd >= 24 ? hoursToAdd % 24 : hoursToAdd != 0 ? hoursToAdd : 0;
-    }
-
-    private int MakePositive(int number) => Math.Sign(number) < 0 ? number * -1 : number;
-
-    private Tuple<int, int> GetOverspillMinutes(int minutes)
-    {
-        var overspill = minutes % 60;
-        var loops = FormatHours((minutes - overspill) / 60);
-        return new Tuple<int, int>(loops, overspill);
+        var minutesInDay = 24 * 60;
+        var min = minutes % minutesInDay;
+        var adjustedMinutes = min + minutesInDay;
+        return adjustedMinutes % minutesInDay;
     }
 }
