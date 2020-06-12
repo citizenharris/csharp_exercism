@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
@@ -10,13 +9,12 @@ public static class BracketPush
         if (input == "") return true;
         if (input.Length % 2 != 0) return false;
 
-        var matches = new List<Bracket<char, bool>>();
+        var matches = new List<Bracket>();
         foreach (var c in input)
         {
             if (IsLeftBracket(c)) 
-            {
-                matches.Add(new Bracket<char, bool>(c, true));
-            } else 
+                matches.Add(new Bracket(c, true));
+            else 
             {
                 for (int i = matches.Count - 1; i >= 0; i--)
                 {
@@ -27,13 +25,9 @@ public static class BracketPush
                             matches[i].IsOpen = false;
                             break;
                         } else 
-                        {
                             return false;
-                        }
                     } else
-                    {
                         continue;
-                    }
                 }
             }
         }
@@ -57,7 +51,7 @@ public static class BracketPush
     }
 }
 
-public class Bracket<T1, T2>
+public class Bracket
 {
     public char BracketType { get; set; }
     public bool IsOpen { get; set; }
