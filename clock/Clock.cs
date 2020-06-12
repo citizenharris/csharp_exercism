@@ -2,23 +2,23 @@ using System;
 
 public class Clock
 {
-    private readonly int _timeInMinutes;
-    public int Hours => _timeInMinutes / 60;
-    public int Minutes => _timeInMinutes % 60;
+    private readonly int _totalMinutes;
+    public int Hours => _totalMinutes / 60;
+    public int Minutes => _totalMinutes % 60;
 
     public Clock(int hours, int min)
     {
-        _timeInMinutes = ToTimeInMinutes(hours * 60 + min);
+        _totalMinutes = ToTimeInMinutes(hours * 60 + min);
     }
 
     public Clock Add(int minutesToAdd)
     {
-        return new Clock(0, _timeInMinutes + minutesToAdd);
+        return new Clock(0, _totalMinutes + minutesToAdd);
     }
 
     public Clock Subtract(int minutesToSubtract)
     {
-        return new Clock(0, _timeInMinutes - minutesToSubtract);
+        return new Clock(0, _totalMinutes - minutesToSubtract);
     }
 
     public override string ToString() => $"{Hours.ToString("D2")}:{Minutes.ToString("D2")}";
@@ -42,8 +42,8 @@ public class Clock
     private int ToTimeInMinutes(int minutes)
     {
         var minutesInDay = 24 * 60;
-        var min = minutes % minutesInDay;
-        var adjustedMinutes = min + minutesInDay;
-        return adjustedMinutes % minutesInDay;
+        var actualMinutes = minutes % minutesInDay;
+        var totalMinutes = actualMinutes + minutesInDay;
+        return totalMinutes % minutesInDay;
     }
 }
