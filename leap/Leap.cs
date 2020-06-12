@@ -4,7 +4,14 @@ public static class Leap
 {
     public static bool IsLeapYear(int year)
     {
-    	return year % 4 == 0 ? year % 100 == 0 && year % 400 != 0 : false;
+        var divisibleBy4 = year % 4 == 0;
+        var divisibleBy100 = year % 100 == 0;
+        var divisibleBy400 = year % 400 == 0;
+
+        if (divisibleBy4)
+            return divisibleBy100 ? divisibleBy400 : true;
+        
+        return false;
     }
 }
 
