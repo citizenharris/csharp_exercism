@@ -8,15 +8,13 @@ public class Robot
     public Robot() => Reset();
     public string Name
     {
-      get { return _name; }
+      get => _name;
     }
 
     public void Reset()
     {
-        do
-        {
-            RoboName();
-        } while (_names.IndexOf(_name) != -1);
+        do { RoboName(); } 
+        while (_names.IndexOf(_name) != -1);
         _names.Add(_name);
     }
 
@@ -24,16 +22,11 @@ public class Robot
     {
         _name = string.Empty;
         var rand = new Random();
-        for(int i = 0; i < 5; i++)
+        for (int i = 0; i < 5; i++)
         {
-            if(i< 2)
-            {
-                _name += (char)rand.Next('A', 'Z');
-            }
-            else
-            {
-                _name += (char)rand.Next('0', '9');
-            }
+            _name += i < 2
+                ? (char)rand.Next('A', 'Z')
+                : (char)rand.Next('0', '9');
         }
     }
 }
